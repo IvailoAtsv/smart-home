@@ -3,7 +3,6 @@ import { atomEchoBuyGroups } from "../shared/atom-echo-buy";
 import {
   ARCHITECTURE_OVERVIEW_TEST,
   AUTOMATION_LAMP_YAML,
-  DOCKER_COMPOSE_TEST,
   PIPELINE_CHEAT_SHEET,
 } from "../shared/voice-snippets";
 
@@ -11,7 +10,7 @@ export const testPlan: InstallPlan = {
   id: "test",
   storageKey: "smart-home-steps-test-v3",
   title: "Минимален тест",
-  subtitle: "MacBook · Shelly · ATOM Echo · глас на български",
+  subtitle: "Apple Silicon Mac · Shelly · ATOM Echo · глас на български",
   badge: "Тестов план",
   switchLink: { href: "/", label: "← Пълен план за монтаж" },
   steps: [
@@ -20,35 +19,52 @@ export const testPlan: InstallPlan = {
       step: 1,
       title: "Как работи · Поръчай",
       summary:
-        "Този тест проверява целия гласов кръг преди да купиш постоянен сървър: казваш wake word на ATOM Echo, MacBook разпознава български с Whisper, Shelly включва лампата. Поръчай липсващото от списъка, маркирай какво вече имаш, после продължи стъпка по стъпка.",
+        "Този тест проверява целия гласов кръг преди да купиш постоянен сървър: временна Home Assistant OS VM работи на Apple Silicon Mac, ATOM Echo изпраща командата, а Shelly включва лампата. Първо използваш Home Assistant Cloud, за да не настройваш Whisper/Piper.",
       help: [
         {
           href: "/help/kak-raboti",
           label: "Как работи цялата система",
           description:
-            "От wake word до лампата, offline и разликата тест/пълен план.",
+            "От wake word до лампата и разликата между временния тест и пълния план.",
         },
       ],
       setup: [
         "Прочети архитектурата и cheat sheet-а по-долу — това е картата на проекта.",
-        "Ти вече имаш MacBook, Shelly на Wi-Fi и лампа. Новата покупка е ATOM Echo (+ USB-C кабел с данни).",
+        "Ти вече имаш MacBook, Shelly на Wi-Fi и лампа. Новата покупка е ATOM Echo и USB-C кабел с данни; след прошивката му трябва обикновено 5 V USB захранване.",
         "В списъка за покупки избери един вариант на група (ATOM Echo, магазин). Кабелът се отбелязва отделно.",
-        "Docker Desktop е безплатен софтуер — инсталирай го преди стъпка 2.",
-        "Когато поръчките са на път (или вече при теб), продължи към „Подготви MacBook“.",
+        "Тестът не преинсталира macOS и не пише върху вътрешния диск: Home Assistant живее в един временен VM файл.",
+        "Когато поръчките са на път (или вече при теб), продължи към „Създай временна HA VM“.",
       ],
       buyGroups: [
         {
           id: "software",
-          title: "Софтуер (безплатно)",
-          description: "Нужен е преди всичко останало на Mac.",
+          title: "Софтуер за временния тест",
+          description: "UTM е безплатен и държи Home Assistant изолиран от macOS.",
           items: [
             {
-              id: "docker-desktop",
-              label: "Docker Desktop за Mac",
-              store: "docker.com",
-              url: "https://www.docker.com/products/docker-desktop/",
+              id: "utm",
+              label: "UTM за Apple Silicon Mac",
+              store: "utm.app",
+              url: "https://utm.app/",
               notes:
-                "Безплатно за лична употреба. Стартирай го и изчакай кита да стане зелен.",
+                "Безплатно. Използвай го само за временната VM; не променя macOS.",
+            },
+          ],
+        },
+        {
+          id: "test-voice-backend",
+          title: "По избор · Cloud voice за първия тест",
+          description:
+            "Най-малко настройване: Home Assistant Cloud предоставя STT/TTS. Можеш да го пропуснеш, ако ще настройваш локален pipeline.",
+          items: [
+            {
+              id: "test-nabu-casa",
+              label: "Home Assistant Cloud",
+              store: "nabucasa.com",
+              approxPrice: "≈ 7,50 €/мес.",
+              url: "https://www.nabucasa.com/",
+              notes:
+                "Аудиото за STT/TTS напуска дома; Shelly и Home Assistant остават в твоята VM.",
             },
           ],
         },
@@ -70,47 +86,38 @@ export const testPlan: InstallPlan = {
     {
       id: "laptop",
       step: 2,
-      title: "Подготви MacBook",
+      title: "Създай временна HA VM",
       summary:
-        "Лаптопът ще бъде временният „сървър“ вкъщи. Важно е да е в същата Wi-Fi мрежа като Shelly и ATOM Echo, да има достатъчно RAM и да не заспива по време на теста.",
+        "Home Assistant OS ще работи като временен ARM64 виртуален компютър в UTM. Той не заменя macOS и можеш да го спреш или изтриеш след теста.",
       setup: [
-        "Инсталирай Docker Desktop от стъпка 1. Отвори го и изчакай статусът да е Running.",
-        "Свържи MacBook към същата Wi-Fi мрежа, на която е Shelly. ATOM Echo после също трябва да е на 2.4 GHz от тази мрежа (или guest 2.4 GHz към същия LAN).",
-        "Ако имаш 8 GB RAM — тестът пак върви, но Whisper ще е по-бавен. С 16 GB е по-приятно.",
-        "Сложи лаптопа на заряд и изключи „заспиване при захранване от адаптер“ за сесията (System Settings → Battery / Energy), за да не спира Docker.",
-        "Запиши локалния IP: System Settings → Network → Wi-Fi → Details. Ще ти трябва за телефона и понякога за Wyoming (напр. 192.168.1.42).",
+        "Инсталирай UTM от стъпка 1 и изтегли ARM64 Home Assistant OS image от https://www.home-assistant.io/installation/macos/.",
+        "Създай VM с поне 2 vCPU и 2 GB RAM; за по-плавен тест дай 4 GB RAM. Запази виртуалния диск в отделна папка, например ~/Home Assistant Test/.",
+        "Настрой мрежата като Bridged, за да са Mac VM, Shelly и ATOM Echo в една LAN. ATOM Echo използва 2.4 GHz Wi-Fi.",
+        "Стартирай VM, изчакай Home Assistant да се появи и отвори http://homeassistant.local:8123. Ако не се открие, използвай IP адреса на VM.",
+        "Дръж MacBook включен към зарядно и не го оставяй да заспи по време на теста. Когато приключиш, Shut Down VM; изтриването на VM премахва теста.",
       ],
     },
     {
       id: "ha-stack",
       step: 3,
-      title: "HA + Whisper в Docker",
+      title: "Завърши HA и избери voice pipeline",
       summary:
-        "Вдигаш два контейнера с един файл: Home Assistant (уеб интерфейс и автоматизации) и faster-whisper (разпознаване на български). В Docker няма add-on магазин — затова Whisper е отделно.",
+        "Завършваш първоначалната настройка на Home Assistant. За най-бързия тест използваш Home Assistant Cloud; локалният Whisper/Piper остава за пълния план.",
       help: [
         {
-          href: "/help/docker-mac",
-          label: "Подробно: Docker на Mac",
-          description: "Портове, host.docker.internal, типични грешки.",
+          href: "/help/voice-pipeline",
+          label: "Подробно: гласов pipeline",
+          description: "Cloud първо, локален Whisper/Piper по-късно.",
         },
       ],
       setup: [
-        "Създай папка ~/smart-home-test. Вътре създай файл с име docker-compose.yml и постави съдържанието от блока по-долу (бутон Копирай).",
-        "Отвори Terminal, изпълни: cd ~/smart-home-test && docker compose up -d",
-        "Първият път изтеглянето отнема 2–10 минути. След това и двата контейнера трябва да са „Up“ (провери с docker compose ps).",
-        "На Mac отвори http://localhost:8123. Създай потребител и завърши онбординга на Home Assistant.",
-        "От телефона (същата Wi-Fi) пробвай http://ТВОЯ-IP:8123 — трябва да видиш същия екран за вход.",
-      ],
-      code: [
-        {
-          title: "docker-compose.yml",
-          language: "yaml",
-          content: DOCKER_COMPOSE_TEST,
-        },
+        "Създай потребител, задай локация Europe/Sofia и завърши onboarding-а.",
+        "За най-простия тест активирай Home Assistant Cloud. Той предоставя STT/TTS; самият Home Assistant и Shelly остават във VM и в твоята LAN.",
+        "В Настройки → Гласови асистенти провери, че има асистент Home Assistant Cloud и език Bulgarian, ако е наличен за профила ти.",
+        "Не инсталирай Whisper или Piper още. Ако искаш напълно локален глас, това е отделна стъпка в пълния план.",
       ],
       warnings: [
-        "На macOS не ползвай --network=host. Портовете 8123 и 10300 в compose файла са правилният начин.",
-        "Първите гласови опити може да са бавни, докато Whisper довърши изтеглянето на модела.",
+        "Home Assistant Cloud изпраща аудиото за разпознаване към Nabu Casa. За локална/офлайн обработка използвай Whisper/Piper в пълния план.",
       ],
     },
     {
@@ -118,7 +125,7 @@ export const testPlan: InstallPlan = {
       step: 4,
       title: "Гласов pipeline",
       summary:
-        "Сега свързваш Whisper с Assist. Без тази връзка ATOM Echo ще чува wake word, но Home Assistant няма да знае как да превърне българския говор в текст.",
+        "Проверяваш, че Assist има работещ pipeline. Без него ATOM Echo може да чуе wake word, но Home Assistant няма да знае как да превърне говора в команда.",
       help: [
         {
           href: "/help/voice-pipeline",
@@ -127,11 +134,9 @@ export const testPlan: InstallPlan = {
         },
       ],
       setup: [
-        "В Home Assistant: Настройки → Устройства и услуги → Добави интеграция → потърси Wyoming.",
-        "За Host пробвай първо host.docker.internal, порт 10300. Ако не тръгне — ползвай IP адреса на MacBook от стъпка 2, същият порт.",
-        "Настройки → Гласови асистенти (Voice assistants). Създай или редактирай асистент.",
-        "Speech-to-text: избери Wyoming / faster-whisper. Език: Bulgarian (или bg).",
-        "TTS засега може да оставиш празно или по подразбиране — целта е лампата да се включва надеждно; хубавият глас идва после.",
+        "В Настройки → Гласови асистенти избери асистента, който създаде Home Assistant Cloud.",
+        "Провери Conversation agent = Home Assistant и избери Bulgarian за STT/TTS, ако езикът е наличен.",
+        "Остави Whisper/Piper за по-късно. Първата цел е ATOM Echo да изпрати команда и Shelly да я изпълни.",
         "Запиши името на pipeline-а — ще го избереш на ATOM Echo след прошивката.",
       ],
       code: [
@@ -142,7 +147,7 @@ export const testPlan: InstallPlan = {
         },
       ],
       warnings: [
-        "Ако Wyoming показва грешка: docker compose ps и docker compose logs faster-whisper — контейнерът трябва да слуша на 10300.",
+        "Ако Cloud pipeline не се появява, провери, че Home Assistant Cloud е активиран и че в VM има интернет.",
       ],
     },
     {
@@ -216,7 +221,7 @@ export const testPlan: InstallPlan = {
       step: 8,
       title: "Прошивай ATOM Echo",
       summary:
-        "От Chrome на Mac записваш Voice Assistant firmware, свързваш го към 2.4 GHz Wi-Fi и го добавяш в Home Assistant. След това избираш pipeline-а от стъпка 4.",
+        "От Chrome на Mac записваш Voice Assistant firmware, свързваш ATOM Echo към 2.4 GHz Wi-Fi и го добавяш към временния Home Assistant. След това избираш pipeline-а от стъпка 4.",
       help: [
         {
           href: "/help/atom-echo-flash",
@@ -242,12 +247,12 @@ export const testPlan: InstallPlan = {
       step: 9,
       title: "Wake word + глас",
       summary:
-        "Първо казваш английска wake дума (устройството светва), после веднага българската команда. Няма готова българска wake дума — така е замислено засега.",
+        "Първо казваш английска wake дума (устройството светва), после веднага българската команда. Готовите wake words са английски; българската команда се обработва от избрания pipeline.",
       setup: [
         "В настройките на ATOM Echo / Assist избери wake word, напр. „Okay Nabu“ или „Hey Jarvis“.",
         "Кажи wake word отчетливо. LED-ът трябва да покаже, че слуша (обикновено синьо).",
         "Без дълга пауза кажи командата на български: „Включи лампата в хола“ или „Тъмно е в хола“.",
-        "Замълчи. Системата засича тишина (VAD), спира записа и праща аудиото към Whisper.",
+        "Замълчи. Системата засича тишина (VAD), спира записа и праща аудиото към избрания STT pipeline.",
         "Ако нищо не се случва: първо тествай същата фраза с писан текст в Assist — така разделяш проблем в микрофона от проблем в автоматизацията.",
       ],
       warnings: [
@@ -263,7 +268,7 @@ ATOM Echo: светва / слуша
 Ти: „Тъмно е в хола“
 (спираш)
 
-Системата: тишина → Whisper → automation → лампата светва`,
+Системата: тишина → Assist pipeline → automation → лампата светва`,
         },
       ],
     },
@@ -272,7 +277,7 @@ ATOM Echo: светва / слуша
       step: 10,
       title: "Български фрази",
       summary:
-        "Готовите изречения правят теста надежден, дори когато Whisper обърка дума. Слагаш няколко фрази, които със сигурност включват лампата, и кратък отговор.",
+        "Готовите изречения правят теста надежден. Слагаш няколко фрази, които със сигурност включват лампата, и кратък отговор.",
       help: [
         {
           href: "/help/bulgarian-phrases",
@@ -303,9 +308,9 @@ ATOM Echo: светва / слуша
         "Един спокоен прогон от начало до край. Ако мине — знаеш, че архитектурата работи и можеш да преминеш към постоянен сървър (пълния план).",
       setup: [
         "Кажи wake word, после „Тъмно е в хола“. Не повтаряй бързо — изчакай цикъла.",
-        "Лампата трябва да светне в рамките на няколко секунди (на Mac с Base модел понякога 5–15 сек).",
+        "Лампата трябва да светне след обработката на Cloud pipeline-а; запиши реалното време вместо да разчиташ на предварителна оценка.",
         "Отбележи приблизителната латентност — полезно е за сравнение после с N100.",
-        "Ако текстът в Assist работи, а гласът не: върни се към ATOM Echo / Whisper (стъпки 4, 8, 9), не към Shelly.",
+        "Ако текстът в Assist работи, а гласът не: върни се към ATOM Echo / pipeline (стъпки 4, 8, 9), не към Shelly.",
         "Когато си доволен: отвори пълния план за mini PC + Voice PE. Същият pipeline, по-стабилен хардуер.",
       ],
     },

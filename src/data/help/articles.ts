@@ -21,24 +21,24 @@ export const helpArticles: HelpArticle[] = [
         heading: "Големият поток",
         paragraphs: [
           "Гласовото устройство (Voice PE или ATOM Echo) стои в стаята и постоянно слуша само за wake word — кратка английска дума като „Okay Nabu“. Това разпознаване става на самото устройство, не в облака.",
-          "След wake word устройството записва следващите ти секунди говор и ги изпраща по Wi-Fi към Home Assistant в къщата. HA подава аудиото на Whisper (локален speech-to-text), получава български текст, пуска автоматизация или Assist, и казва на Shelly да включи лампата.",
+          "След wake word устройството записва следващите ти секунди говор и ги изпраща по Wi-Fi към Home Assistant в къщата. HA подава аудиото към избрания STT engine (първоначално може да е Home Assistant Cloud, по-късно локален Whisper), получава текст, пуска Assist/автоматизация и казва на Shelly да включи лампата.",
           "После HA може да върне кратък отговор (бийп или TTS) към говорителя на сателита. Целият кръг може да се случи без интернет, стига устройствата да са в една и съща локална мрежа.",
         ],
       },
       {
         heading: "Какво трябва онлайн",
         paragraphs: [
-          "Интернет ти трябва само при първа настройка: изтегляне на Docker образи / HA OS, прошивка на ATOM Echo, изтегляне на Whisper модел. След това критичният поток (глас → лампа) остава в LAN.",
+          "При временния Mac тест интернет е нужен за VM setup, прошивката и Home Assistant Cloud. При пълния план можеш да преминеш към локални apps и тогава критичният поток (глас → лампа) остава в LAN.",
         ],
         bullets: [
           "Shelly Cloud не е нужен — ползваме локалната HA интеграция.",
-          "Nabu Casa Cloud е опция само ако локалният Whisper греши твърде често на български.",
+          "Nabu Casa Cloud е най-бързият първи pipeline, но аудиото за STT/TTS напуска дома. Локалният Whisper/Piper е по-приватният вариант.",
         ],
       },
       {
         heading: "Тест срещу пълен монтаж",
         paragraphs: [
-          "Тестовият план ползва твоя MacBook като временен сървър (Docker) и ATOM Echo като микрофон. Пълният план слага постоянен mini PC с Home Assistant OS и Voice PE в хола — същата логика, по-стабилен хардуер.",
+          "Тестовият план ползва Apple Silicon Mac като временен UTM хост за Home Assistant OS и ATOM Echo като микрофон. Пълният план слага постоянен mini PC с Home Assistant OS и Voice PE в хола — същата логика, по-стабилен хардуер.",
         ],
       },
     ],
@@ -49,39 +49,35 @@ export const helpArticles: HelpArticle[] = [
   },
   {
     slug: "docker-mac",
-    title: "Home Assistant + Whisper на Mac с Docker",
+    title: "Docker на Mac: напреднал експеримент",
     description:
-      "Стъпка по стъпка: Docker Desktop, docker-compose, портове и как HA намира Whisper.",
+      "Защо Docker Desktop не е основният тестов път и какво губиш спрямо HAOS VM.",
     sections: [
       {
-        heading: "Защо два контейнера",
+        heading: "Защо не е основният план",
         paragraphs: [
-          "Home Assistant в Docker няма add-on магазин като HA OS. Затова Whisper не се инсталира „вътре“ в HA, а като отделен контейнер (faster-whisper), който говори по протокола Wyoming на порт 10300.",
+          "Home Assistant Container няма apps като HAOS, а текущата документация на Home Assistant изрично казва, че Docker Desktop не е поддържан runtime за този installation path. Затова Docker Desktop не е надеждната основа за ATOM теста.",
         ],
       },
       {
-        heading: "Как да стартираш",
+        heading: "Какво би означавал този експеримент",
         paragraphs: [
-          "Инсталирай Docker Desktop и го остави включен. Създай папка, напр. ~/smart-home-test. Вътре създай файл docker-compose.yml с двата сервиса (копирай от стъпката в плана).",
-          "В Terminal: cd ~/smart-home-test && docker compose up -d. Първият път ще изтегли образите и Whisper модела — може да отнеме няколко минути.",
-          "Отвори http://localhost:8123 и си създай акаунт. От телефона ползвай http://IP-на-MacBook:8123 (IP го виждаш в System Settings → Network → Wi-Fi).",
+          "Можеш да стартираш Home Assistant Container и отделен Wyoming STT контейнер, но ще управляваш ръчно мрежа, обновления и voice services. Това е експеримент за човек, който вече работи уверено с Docker, не най-краткият път до ATOM Echo.",
+          "За Apple Silicon и реален voice тест използвай временна ARM64 HAOS VM в UTM от тестовия план.",
         ],
       },
       {
-        heading: "Свързване на Wyoming",
+        heading: "Ако все пак експериментираш",
         paragraphs: [
-          "В HA: Настройки → Устройства и услуги → Добави интеграция → Wyoming. Host обикновено е host.docker.internal (Mac вижда хоста така от контейнера) или директно IP адреса на MacBook. Порт: 10300.",
-          "После: Настройки → Гласови асистенти → pipeline → Speech-to-text = faster-whisper, език Bulgarian.",
+          "Home Assistant Container използва отделни Wyoming услуги за STT/TTS. След това в Settings → Devices & services добавяш Wyoming, а в Settings → Voice assistants избираш STT engine и език.",
         ],
         bullets: [
-          "Ако Wyoming не се свързва: docker compose ps — и двата контейнера трябва да са Up.",
-          "На macOS не ползвай --network=host; ползвай ports както в compose файла.",
+          "Docker Desktop има различно network поведение от Linux Docker Engine и може да попречи на discovery.",
+          "Не го използвай като доказателство, че основната архитектура работи, ако ATOM или Shelly не се откриват.",
         ],
       },
     ],
-    relatedSteps: [
-      { href: "/test#node-ha-stack", label: "Тест · HA + Whisper" },
-    ],
+    relatedSteps: [{ href: "/test#node-laptop", label: "Препоръчителният Mac тест" }],
   },
   {
     slug: "atom-echo-flash",
@@ -98,7 +94,7 @@ export const helpArticles: HelpArticle[] = [
       {
         heading: "Стъпки",
         paragraphs: [
-          "Отвори официалния guide на Home Assistant за $13 voice remote в Chrome. Свържи ATOM Echo към Mac. Натисни Connect, избери новия USB serial порт, после Install Voice Assistant.",
+          "Отвори официалния guide на Home Assistant за $13 voice remote (https://www.home-assistant.io/voice_control/thirteen-usd-voice-remote/) в Chrome. Свържи ATOM Echo към Mac. Натисни Connect, избери новия USB serial порт, после Install Voice Assistant.",
           "Ако няма порт — инсталирай CH342 драйвера от същата страница и пробвай отново. След прошивката въведи 2.4 GHz Wi-Fi (не 5 GHz — ATOM Echo не го ползва).",
           "Избери Add to Home Assistant. Ще се появи ESPHome интеграцията. В настройките на устройството задай гласовия pipeline, който вече си създал.",
         ],
@@ -154,20 +150,20 @@ export const helpArticles: HelpArticle[] = [
       {
         heading: "Подготовка",
         paragraphs: [
-          "Нужни са: mini PC (x86-64, препоръчително N100 с 16 GB RAM), USB флашка ≥16 GB, Ethernet към рутера. Изтегли официалния HA OS образ за generic x86-64.",
+          "Нужни са: отделен x86-64 mini PC, USB флашка поне 8 GB (16 GB е практичният избор), Ethernet към рутера и резервно копие на важните данни. N100 с 16 GB RAM е добра цел за локален Whisper. Официалният guide е https://www.home-assistant.io/installation/generic-x86-64/.",
         ],
       },
       {
         heading: "Запис и инсталация",
         paragraphs: [
-          "С Balena Etcher запиши образа на флашката. Включи mini PC-а с флашката, влез в BIOS/boot меню и стартирай от USB. Следвай екрана за инсталация върху вътрешния SSD — това изтрива диска.",
-          "След рестарт махни флашката. От телефон в същата мрежа отвори http://homeassistant.local:8123 (или IP адреса на машината). Създай акаунт.",
+          "HAOS няма автоматичен installer, който сам избира диска. Препоръчителният метод е Ubuntu Live от USB и Restore Disk Image към вътрешния SSD; Balena Etcher е алтернативен метод, ако SSD-то може безопасно да се свърже към друг компютър.",
+          "В BIOS включи UEFI и изключи Secure Boot. След инсталацията махни временния USB, свържи Ethernet и отвори http://homeassistant.local:8123 (или IP адреса на машината). Създай акаунт.",
         ],
       },
       {
         heading: "Защо HA OS, не Docker",
         paragraphs: [
-          "На постоянния сървър HA OS ти дава add-on магазин (Whisper, Piper, ESPHome) с един клик. На Mac теста ползваме Docker, защото не искаме да преинсталираме лаптопа.",
+          "HAOS е препоръчителният тип за постоянен сървър, защото включва Supervisor и apps като Whisper, Piper и ESPHome. За Mac теста използваме HAOS във VM, така че macOS остава непокътнат.",
         ],
       },
     ],
@@ -183,19 +179,19 @@ export const helpArticles: HelpArticle[] = [
       {
         heading: "Какво е pipeline",
         paragraphs: [
-          "Pipeline-ът е рецепта: откъде идва аудиото, кой го превръща в текст (Whisper), как се разбира командата (Assist / automation), и как се връща отговор (Piper / бийп).",
+          "Pipeline-ът е рецепта: откъде идва аудиото, кой го превръща в текст (Cloud STT или Whisper), как се разбира командата (Assist/automation), и как се връща отговор (Cloud TTS, Piper или бийп).",
         ],
       },
       {
         heading: "На HA OS",
         paragraphs: [
-          "Инсталирай add-on Whisper (и по желание Piper) от Магазина за добавки. Wyoming обикновено ги открива сам. В Гласови асистенти създай pipeline с език Bulgarian и го присвои към Voice PE.",
+          "На HAOS отвори Settings → Apps и инсталирай Whisper и по желание Piper. Стартирай apps, добави Wyoming от Settings → Devices & services, после в Settings → Voice assistants създай pipeline с Home Assistant conversation agent и език Bulgarian. Виж и https://www.home-assistant.io/voice_control/voice_remote_local_assistant.",
         ],
       },
       {
-        heading: "На Docker (Mac)",
+        heading: "На Container",
         paragraphs: [
-          "Няма add-ons — ползваш отделния faster-whisper контейнер и ръчно добавяш Wyoming интеграцията към host:port 10300. Същият pipeline UI.",
+          "Няма apps — използваш отделни STT/TTS контейнери и ръчно добавяш Wyoming. Това е възможно, но е напреднал вариант; за Apple Silicon теста използвай HAOS VM.",
         ],
       },
     ],

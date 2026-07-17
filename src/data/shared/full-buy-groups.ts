@@ -42,10 +42,10 @@ export const serverBuyGroups: BuyGroup[] = [
       {
         id: "ethernet-cable",
         label: "Ethernet кабел Cat6 · 2 m",
-        store: "eMAG.bg",
-        approxPrice: "≈ 3 €",
-        url: "https://www.emag.bg/gembird-utp-kabel-kat-6-2m-zeleno-pp6u-2m-g/pd/DM8RJSBBM/",
-        notes: "Свържи mini PC директно към рутера.",
+        store: "Technomarket.bg",
+        approxPrice: "≈ 1,99 €",
+        url: "https://www.technomarket.bg/kompyuterni-kabeli/gembird-pp6-2m-w-09219414",
+        notes: "Свържи mini PC директно към рутера; провери наличността преди поръчка.",
       },
     ],
   },
@@ -56,7 +56,7 @@ export const voicePeBuyGroups: BuyGroup[] = [
     id: "voice-pe",
     title: "Глас за хола · Voice PE",
     description:
-      "Официалният микрофон/говорител на Home Assistant. Избери един магазин. USB-C захранване 20W често не е в кутията.",
+      "Официалният микрофон/говорител на Home Assistant. Избери един магазин. Кабелът и зарядното не са гарантирани в комплекта.",
     pickOne: true,
     items: [
       {
@@ -65,7 +65,7 @@ export const voicePeBuyGroups: BuyGroup[] = [
         store: "Domadoo",
         approxPrice: "59 €",
         url: "https://www.domadoo.fr/bg/domashen-avtomatizacionen-boks/7558-nabu-casa-asistent-za-glasovo-upravlenie-na-doma-home-assistant-voice-preview-edition-0860011789727.html",
-        notes: "Доставка до България.",
+        notes: "EU retailer; провери актуална наличност и доставка до България.",
       },
       {
         id: "voice-pe-alza",
@@ -73,7 +73,31 @@ export const voicePeBuyGroups: BuyGroup[] = [
         store: "Alza.cz",
         approxPrice: "59 €",
         url: "https://www.alza.cz/home-assistant-voice-preview-edition-d12741248.htm",
-        notes: "Провери доставката до България.",
+        notes: "EU retailer; провери актуална наличност и доставка до България.",
+      },
+    ],
+  },
+  {
+    id: "voice-pe-power",
+    title: "Захранване и кабел · Voice PE",
+    description:
+      "Нужни са USB-C захранване 5 V / 2 A и кабел, ако вече нямаш съвместими у дома.",
+    items: [
+      {
+        id: "voice-pe-charger-technopolis",
+        label: "Apple USB-C Power Adapter 20 W",
+        store: "Technopolis.bg",
+        approxPrice: "≈ 51,83 лв.",
+        url: "https://www.technopolis.bg/bg/Aksesoari-za-mobilni-telefoni/APPLE-USB-C-POWER-ADAPTER-20-W-MD3J4ZM-A/p/507444",
+        notes: "Зарядното е USB-C; кабелът се купува отделно или използвай наличен.",
+      },
+      {
+        id: "voice-pe-cable-ozone",
+        label: "USB-C ↔ USB-C кабел с данни · 2 m",
+        store: "Ozone.bg",
+        approxPrice: "≈ 19,99 лв.",
+        url: "https://www.ozone.bg/product/baseus-crystal-shine-series-fast-charging-data-cable-type-c-to-type-c-100w-2m-blue/",
+        notes: "Подходящ за USB-C захранване; провери наличността преди поръчка.",
       },
     ],
   },
@@ -88,10 +112,10 @@ export const optionalBuyGroups: BuyGroup[] = [
       {
         id: "ups-njoy",
         label: "UPS NJOY Keen 600 VA",
-        store: "eMAG.bg",
-        approxPrice: "≈ 40 €",
-        url: "https://www.emag.bg/ups-i/c",
-        notes: "Потърси „NJOY Keen 600“ в категорията UPS.",
+        store: "Onlinemashini.bg",
+        approxPrice: "≈ 52,66 €",
+        url: "https://www.onlinemashini.bg/ups-ustroistbo-njoy-keen-600/87115",
+        notes: "Точна продуктова страница; провери наличността и цената преди поръчка.",
       },
     ],
   },

@@ -31,12 +31,12 @@ export const fullPlan: InstallPlan = {
           href: "/help/kak-raboti",
           label: "Как работи цялата система",
           description:
-            "Wake word → Whisper → Shelly, offline, тест срещу пълен план.",
+            "Wake word → Assist pipeline → Shelly, cloud или локална обработка.",
         },
         {
           href: "/help",
           label: "Всички ръководства",
-          description: "Индекс с Docker, HA OS, ATOM Echo, фрази и още.",
+          description: "Индекс с HAOS, Mac VM, ATOM Echo, фрази и още.",
         },
       ],
       setup: [
@@ -97,24 +97,24 @@ export const fullPlan: InstallPlan = {
       step: 3,
       title: "Инсталирай Home Assistant",
       summary:
-        "Записваш Home Assistant OS на USB флашка, бутваш mini PC-а от нея и инсталираш системата върху вътрешния диск. След това влизаш от телефона на адрес :8123.",
+        "Записваш Home Assistant OS върху boot medium-а на mini PC-а и стартираш системата върху вътрешния диск. След това влизаш от телефона на адрес :8123.",
       help: [
         {
           href: "/help/ha-os-install",
           label: "Подробно: инсталация на HA OS",
-          description: "Etcher, boot меню, първи вход, защо OS а не Docker.",
+          description: "UEFI, безопасен запис на диска, първи вход и apps.",
         },
       ],
       setup: [
-        "От друг компютър изтегли образа Generic x86-64 от https://www.home-assistant.io/installation/generic-x86-64/",
-        "Инсталирай Balena Etcher (https://etcher.balena.io/) и запиши образа върху USB флашката от стъпка 1. Това изтрива съдържанието на флашката.",
-        "Завий флашката в mini PC-а, включи го и отвори boot/BIOS менюто (често F7/F10/F12/Del — зависи от марката).",
-        "Стартирай от USB и следвай екрана за инсталация върху SSD. Вътрешният диск се презаписва.",
-        "След рестарт махни флашката. От телефон в същата мрежа отвори http://homeassistant.local:8123 (или IP на машината).",
+        "От друг компютър изтегли Generic x86-64 образа от https://www.home-assistant.io/installation/generic-x86-64/.",
+        "В BIOS включи UEFI и изключи Secure Boot. Клавишът зависи от mini PC-а — често F2, Del, F1 или F10.",
+        "Препоръчителният метод е да стартираш Ubuntu Live от USB и с Disks да възстановиш HAOS образа върху вътрешния SSD. Алтернативно използвай Balena Etcher от друг компютър, ако можеш да свържеш SSD-то като boot medium.",
+        "Тази операция изтрива целия избран диск. След нея изключи mini PC-а, махни временния USB и стартирай от вътрешния SSD.",
+        "Свържи Ethernet и изчакай първото изтегляне на Home Assistant. От телефон в същата мрежа отвори http://homeassistant.local:8123 (или IP на машината).",
         "Създай акаунт, задай локация/час и завърши първоначалната настройка.",
       ],
       warnings: [
-        "Инсталацията върху SSD изтрива всичко на диска. Увери се, че няма важни данни там.",
+        "HAOS няма автоматичен инсталатор, който безопасно да избере диска вместо теб. Увери се два пъти, че избираш правилния SSD и че няма важни данни там.",
       ],
     },
     {
@@ -194,12 +194,12 @@ export const fullPlan: InstallPlan = {
       power: {
         label: "5 V USB-C",
         detail:
-          "Постоянно захранване. Ако в кутията няма адаптер — ползвай USB-C PD от списъка в стъпка 1 (мин. 5V/2A).",
+          "Постоянно захранване. Voice PE изисква 5 V / 2 A USB-C; кабелът и зарядното не са гарантирани в комплекта. Вземи съвместимите аксесоари от стъпка 1 или използвай вече налични.",
       },
       setup: [
         "Разопаковай Voice PE. Свържи захранването и изчакай да светне.",
         "Постави го на място, от което обикновено говориш (маса, рафт), не зад телевизор с вентилатор до микрофона.",
-        "Следвай инструкциите в кутията / HA за добавяне на Voice PE към твоя Home Assistant (обикновено Bluetooth/improv + Wi-Fi).",
+        "Следвай setup wizard-а на Home Assistant Voice за добавяне на Voice PE към твоя Home Assistant и свързването му към Wi-Fi.",
         "Когато устройството се появи в HA, още не го тествай на глас — първо вдигни pipeline-а (следващата стъпка).",
         "За други стаи по-късно ползваш ATOM Echo от списъка в стъпка 1 (стъпка 15).",
       ],
@@ -209,20 +209,20 @@ export const fullPlan: InstallPlan = {
       step: 8,
       title: "Гласов pipeline",
       summary:
-        "На HA OS инсталираш Whisper (и по желание Piper) като add-on-и, връзваш ги в Assist и казваш на Voice PE кой pipeline да ползва. Това е „мозъкът“ на разговора.",
+        "На HA OS инсталираш voice apps (Whisper и по желание Piper), връзваш ги през Wyoming и казваш на Voice PE кой Assist pipeline да ползва. Това е „мозъкът“ на разговора.",
       help: [
         {
           href: "/help/voice-pipeline",
           label: "Подробно: гласов pipeline",
-          description: "STT, TTS, език Bulgarian, разлика HA OS / Docker.",
+          description: "STT, TTS, език Bulgarian, Cloud срещу локални apps.",
         },
       ],
       setup: [
-        "Настройки → Добавки → Магазин за добавки. Инсталирай Whisper (faster-whisper). Стартирай го.",
-        "На N100 започни с модел Base — достатъчен за тест и по-бърз. Small после, ако Base греши.",
-        "По желание инсталирай Piper за локален гласов отговор.",
-        "Настройки → Устройства → Wyoming обикновено открива add-on-ите автоматично. Ако не — добави ръчно.",
-        "Настройки → Гласови асистенти: създай pipeline с STT = Whisper, език Bulgarian. Присвои го към Voice PE.",
+        "Настройки → Apps. Инсталирай Whisper (faster-whisper) и го стартирай. Home Assistant вече нарича тези пакети apps, не add-ons.",
+        "На N100 започни с модел Base — достатъчен за първи тест и по-бърз; опитай Small само ако Base греши твърде често.",
+        "По желание инсталирай Piper app за локален гласов отговор. Българският глас и качеството трябва да се проверят с реални фрази.",
+        "От Settings → Devices & services добави Wyoming, ако Whisper/Piper не се открият автоматично.",
+        "От Settings → Voice assistants създай pipeline с Home Assistant conversation agent, STT = Whisper, език Bulgarian и по желание TTS = Piper. Присвои pipeline-а към Voice PE.",
         "Документация при нужда: https://www.home-assistant.io/voice_control/",
       ],
       code: [
@@ -313,7 +313,7 @@ export const fullPlan: InstallPlan = {
       summary:
         "След като лампата се включва надеждно, добавяш потвърждение: бийп или Piper. Перфектният български глас може да почака — първо стабилност.",
       setup: [
-        "В pipeline добави TTS: Piper (локален add-on) или временно остави само визуален/бийп отговор от сателита.",
+        "В pipeline добави TTS: Piper app (локален) или временно остави само визуален/бийп отговор от сателита.",
         "Ако Piper няма добър български глас за теб — не блокирай проекта заради това. Бийп + работеща лампа е успех за пилота.",
         "Когато си готов, пробвай кратки отговори на автоматизациите да се чуват на Voice PE.",
       ],

@@ -13,18 +13,19 @@ export const shellyBuyGroups: BuyGroup[] = [
         id: "shelly-with-n",
         label: "С неутрала · Shelly 1PM Mini Gen4",
         store: "ВИКИВАТ",
-        approxPrice: "≈ 21 €",
+        approxPrice: "≈ 20,83 €",
         url: "https://vikiwat.com/wi-fi-smart-elektromer-230vac-shelly-plus-1pm-mini-monofazen-265666",
         notes:
-          "8 A, с измерване на ток. Подходящ, ако в кутията има син/черен N проводник.",
+          "8 A, с измерване на ток. Изисква L и N; електротехникът потвърждава схемата и товара.",
       },
       {
         id: "shelly-without-n",
         label: "Без неутрала · Shelly 1L Gen3",
         store: "ВИКИВАТ",
-        approxPrice: "≈ 35 €",
+        approxPrice: "≈ 38,35 €",
         url: "https://vikiwat.com/wi-fi-smart-relay-220-240vac-12a-shelly-1l-gen3-261637",
-        notes: "За стари инсталации без N. В комплекта е bypass модул.",
+        notes:
+          "За инсталации без N. Bypass е включен; за LED осветление е задължителен.",
       },
     ],
   },
