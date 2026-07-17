@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fff8ec;
+  --foreground: #3d4f30;
+  --primary: #546b41;
+  --primary-foreground: #fff8ec;
+  --secondary: #99ad7a;
+  --secondary-foreground: #2f3d24;
+  --surface: #fffdf8;
+  --surface-raised: #f3e8d4;
+  --muted: #dcccac;
+  --muted-foreground: #5a6b4d;
+  --border: #c9b896;
+  --ring: #546b41;
+  --danger: #9b3d32;
+  --danger-soft: #f6e8e6;
+  --success: #4a6b3a;
+  --success-soft: #e8f0e2;
+  --shadow: 0 10px 30px -18px rgba(61, 79, 48, 0.35);
+  --shadow-lg: 0 24px 48px -24px rgba(61, 79, 48, 0.45);
+  --radius: 16px;
+  --prose-width: 65ch;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --font-sans: var(--font-manrope);
+  --font-mono: var(--font-jetbrains-mono);
+  --radius-soft: var(--radius);
+  --shadow-card: var(--shadow);
+  --shadow-sheet: var(--shadow-lg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--secondary) 45%, white);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
