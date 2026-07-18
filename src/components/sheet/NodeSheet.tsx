@@ -22,6 +22,7 @@ import {
 } from "@phosphor-icons/react";
 import type { BuyGroup, BuyItem, RoadmapStep } from "@/data/types";
 import { Button } from "@/components/ui/Button";
+import { LinkifiedText } from "@/components/content/LinkifiedText";
 
 export function buyChecklistKey(itemId: string) {
   return `buy:${itemId}`;
@@ -153,7 +154,7 @@ export function NodeSheet({
 
             <div className="flex-1 space-y-10 overflow-y-auto overscroll-contain px-5 py-6">
               <p className="text-[16px] leading-[1.7] text-foreground/95 md:text-[17px]">
-                {step.summary}
+                <LinkifiedText>{step.summary}</LinkifiedText>
               </p>
 
               {step.help && step.help.length > 0 ? (
@@ -246,7 +247,7 @@ export function NodeSheet({
                         {index + 1}
                       </span>
                       <p className="pt-0.5 text-[15px] leading-[1.7] text-foreground/95">
-                        {line}
+                        <LinkifiedText>{line}</LinkifiedText>
                       </p>
                     </li>
                   ))}
@@ -266,7 +267,7 @@ export function NodeSheet({
                         className="mt-0.5 shrink-0"
                         aria-hidden
                       />
-                      {w}
+                      <LinkifiedText>{w}</LinkifiedText>
                     </li>
                   ))}
                 </ul>

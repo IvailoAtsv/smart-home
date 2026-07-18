@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import type { HelpArticle } from "@/data/help/articles";
+import { LinkifiedText } from "@/components/content/LinkifiedText";
 
 type HelpArticleBodyProps = {
   article: HelpArticle;
@@ -27,7 +28,7 @@ export function HelpArticleBody({ article }: HelpArticleBodyProps) {
                 key={p.slice(0, 48)}
                 className="mt-4 max-w-[65ch] text-[16px] leading-[1.7] text-foreground/92 md:text-[17px]"
               >
-                {p}
+                <LinkifiedText>{p}</LinkifiedText>
               </p>
             ))}
 
@@ -42,7 +43,9 @@ export function HelpArticleBody({ article }: HelpArticleBodyProps) {
                       className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary"
                       aria-hidden
                     />
-                    <span>{b}</span>
+                    <span>
+                      <LinkifiedText>{b}</LinkifiedText>
+                    </span>
                   </li>
                 ))}
               </ul>

@@ -15,30 +15,30 @@ export const helpArticles: HelpArticle[] = [
     slug: "kak-raboti",
     title: "Как работи цялата система",
     description:
-      "От wake word до лампата — какво се случва във всеки момент и защо може да е offline.",
+      "От wake word до лампата — какво се случва във всеки момент и кога системата може да работи без интернет.",
     sections: [
       {
         heading: "Големият поток",
         paragraphs: [
-          "Гласовото устройство (Voice PE или ATOM Echo) стои в стаята и постоянно слуша само за wake word — кратка английска дума като „Okay Nabu“. Това разпознаване става на самото устройство, не в облака.",
-          "След wake word устройството записва следващите ти секунди говор и ги изпраща по Wi-Fi към Home Assistant в къщата. HA подава аудиото към избрания STT engine (първоначално може да е Home Assistant Cloud, по-късно локален Whisper), получава текст, пуска Assist/автоматизация и казва на Shelly да включи лампата.",
-          "После HA може да върне кратък отговор (бийп или TTS) към говорителя на сателита. Целият кръг може да се случи без интернет, стига устройствата да са в една и съща локална мрежа.",
+          "Гласовото устройство (Voice PE или ATOM Echo) стои в стаята и чака wake word — кратка дума като „OK, Nabu“. Когато я разпознае, устройството започва да слуша командата.",
+          "След wake word устройството записва следващите секунди говор и ги изпраща по Wi-Fi към Home Assistant. HA подава аудиото към избрания STT engine (Home Assistant Cloud, локален Whisper или Speech-to-Phrase), получава текст, обработва командата чрез Assist и казва на Shelly да включи лампата.",
+          "После HA може да върне кратък отговор — бийп или TTS — към говорителя на сателита. При изцяло локална конфигурация целият поток може да работи без интернет, стига устройствата да са в една и съща локална мрежа.",
         ],
       },
       {
         heading: "Какво трябва онлайн",
         paragraphs: [
-          "При временния Mac тест интернет е нужен за VM setup, прошивката и Home Assistant Cloud. При пълния план можеш да преминеш към локални apps и тогава критичният поток (глас → лампа) остава в LAN.",
+          "При временния Mac тест интернет е нужен за настройката на виртуалната машина, прошивката и Home Assistant Cloud. При пълния план можеш да преминеш към локални приложения и тогава критичният поток (глас → лампа) остава в LAN.",
         ],
         bullets: [
           "Shelly Cloud не е нужен — ползваме локалната HA интеграция.",
-          "Nabu Casa Cloud е най-бързият първи pipeline, но аудиото за STT/TTS напуска дома. Локалният Whisper/Piper е по-приватният вариант.",
+          "Home Assistant Cloud е най-бързият първи вариант, но аудиото за гласова обработка напуска дома. Локалният Whisper или Speech-to-Phrase плюс Piper е по-приватният вариант.",
         ],
       },
       {
         heading: "Тест срещу пълен монтаж",
         paragraphs: [
-          "Тестовият план ползва Apple Silicon Mac като временен UTM хост за Home Assistant OS и ATOM Echo като микрофон. Пълният план слага постоянен mini PC с Home Assistant OS и Voice PE в хола — същата логика, по-стабилен хардуер.",
+          "Тестовият план използва Apple Silicon Mac като временен UTM хост за Home Assistant OS и ATOM Echo като микрофон. Пълният план използва постоянен mini PC с Home Assistant OS и Voice PE в хола — същата логика, но с хардуер за ежедневна употреба.",
         ],
       },
     ],
@@ -51,25 +51,25 @@ export const helpArticles: HelpArticle[] = [
     slug: "docker-mac",
     title: "Docker на Mac: напреднал експеримент",
     description:
-      "Защо Docker Desktop не е основният тестов път и какво губиш спрямо HAOS VM.",
+      "Защо Docker Desktop не е основният тестов път и какво губиш спрямо HAOS виртуална машина.",
     sections: [
       {
         heading: "Защо не е основният план",
         paragraphs: [
-          "Home Assistant Container няма apps като HAOS, а текущата документация на Home Assistant изрично казва, че Docker Desktop не е поддържан runtime за този installation path. Затова Docker Desktop не е надеждната основа за ATOM теста.",
+          "Home Assistant Container няма приложения като HAOS, а официалната документация изрично казва, че Docker Desktop не работи за този инсталационен път. Затова Docker Desktop не е надеждната основа за теста с ATOM Echo. Виж актуалното ръководство: https://www.home-assistant.io/installation/generic-x86-64/.",
         ],
       },
       {
         heading: "Какво би означавал този експеримент",
         paragraphs: [
-          "Можеш да стартираш Home Assistant Container и отделен Wyoming STT контейнер, но ще управляваш ръчно мрежа, обновления и voice services. Това е експеримент за човек, който вече работи уверено с Docker, не най-краткият път до ATOM Echo.",
-          "За Apple Silicon и реален voice тест използвай временна ARM64 HAOS VM в UTM от тестовия план.",
+          "Можеш да стартираш Home Assistant Container и отделни Wyoming услуги за STT и TTS, но ще управляваш ръчно мрежата, обновленията и гласовите услуги. Това е експеримент за човек, който вече работи уверено с Docker, а не най-краткият път до ATOM Echo.",
+          "За Apple Silicon и реален гласов тест използвай временна ARM64 HAOS виртуална машина в UTM от тестовия план.",
         ],
       },
       {
         heading: "Ако все пак експериментираш",
         paragraphs: [
-          "Home Assistant Container използва отделни Wyoming услуги за STT/TTS. След това в Settings → Devices & services добавяш Wyoming, а в Settings → Voice assistants избираш STT engine и език.",
+          "Home Assistant Container използва отделни Wyoming услуги за STT и TTS. След това в Settings → Devices & services добавяш Wyoming, а в Settings → Voice assistants избираш STT engine, TTS и език. Помни, че Container няма достъп до HAOS приложенията.",
         ],
         bullets: [
           "Docker Desktop има различно network поведение от Linux Docker Engine и може да попречи на discovery.",
@@ -83,57 +83,57 @@ export const helpArticles: HelpArticle[] = [
     slug: "atom-echo-flash",
     title: "Прошивка на M5Stack ATOM Echo",
     description:
-      "Chrome на Mac, USB-C с данни, 2.4 GHz Wi-Fi и добавяне в Home Assistant.",
+      "Chrome на Mac, USB-C кабел с данни, 2.4 GHz Wi-Fi и добавяне в Home Assistant.",
     sections: [
       {
         heading: "Какво ти трябва",
         paragraphs: [
-          "ATOM Echo, USB-C кабел с данни (зарядни-only кабели няма да покажат serial порт), Google Chrome на MacBook (не Safari), и паролата за 2.4 GHz Wi-Fi мрежата.",
+          "ATOM Echo, USB-C кабел с данни (кабел само за зареждане няма да покаже сериен порт), Google Chrome на MacBook (не Safari) и паролата за 2.4 GHz Wi-Fi мрежата.",
         ],
       },
       {
         heading: "Стъпки",
         paragraphs: [
-          "Отвори официалния guide на Home Assistant за $13 voice remote (https://www.home-assistant.io/voice_control/thirteen-usd-voice-remote/) в Chrome. Свържи ATOM Echo към Mac. Натисни Connect, избери новия USB serial порт, после Install Voice Assistant.",
-          "Ако няма порт — инсталирай CH342 драйвера от същата страница и пробвай отново. След прошивката въведи 2.4 GHz Wi-Fi (не 5 GHz — ATOM Echo не го ползва).",
-          "Избери Add to Home Assistant. Ще се появи ESPHome интеграцията. В настройките на устройството задай гласовия pipeline, който вече си създал.",
+          "Отвори официалното ръководство за ATOM Echo (https://www.home-assistant.io/voice_control/thirteen-usd-voice-remote/) в Chrome. Свържи ATOM Echo към Mac, натисни Connect и избери новия сериен порт, а после Install Voice Assistant.",
+          "Ако няма порт, инсталирай CH342 драйвера от същата страница и пробвай отново. След инсталацията въведи 2.4 GHz Wi-Fi; 5 GHz няма да работи.",
+          "Избери Add to Home Assistant. Ще се появи ESPHome интеграцията, а съветникът ще ти помогне да избереш wake word, глас и настройки за устройството.",
         ],
       },
       {
         heading: "Типични проблеми",
         bullets: [
-          "Safari / телефонен браузър — Web Serial не работи. Ползвай Chrome на desktop.",
+          "Safari или браузър на телефон — Web Serial не работи. Ползвай Chrome на компютър.",
           "Само 5 GHz Wi-Fi вкъщи — направи отделен 2.4 GHz SSID или включи „legacy“/mixed режим на рутера.",
           "Слаб микрофон — говори близо; за постоянен хол Voice PE е по-добър.",
         ],
       },
     ],
     relatedSteps: [
-      { href: "/test#node-atom-flash", label: "Тест · Прошивай ATOM Echo" },
+      { href: "/test#node-atom-flash", label: "Тест · Инсталирай ATOM Echo" },
     ],
   },
   {
     slug: "shelly-neutral",
     title: "Shelly: с или без неутрала",
-    description: "Как електротехникът избира модела и защо не пипаш сам 220 V.",
+    description: "Как електротехникът избира модела и защо не пипаш сам инсталацията на 220 V.",
     sections: [
       {
         heading: "Какво е неутрала",
         paragraphs: [
-          "В кутията на стенния ключ често има фаза (L), връщане към лампата и понякога неутрала (N — обикновено син проводник). Не всички стари инсталации в България имат N в кутията на ключа.",
+          "В кутията на стенния ключ обикновено има фаза (L), проводник към лампата и понякога неутрален проводник (N — често син). Не всички стари инсталации в България имат N в кутията на ключа.",
         ],
       },
       {
         heading: "Кой модел",
         bullets: [
-          "Има N → Shelly 1PM Mini Gen4 (по-малък, с измерване на ток).",
-          "Няма N → Shelly 1L Gen3 + bypass модул (по инструкциите на Shelly).",
+          "Има N → Shelly 1PM Mini Gen4. Моделът изисква L и N и има измерване на мощност. Официална страница: https://www.shelly.com/products/shelly-1pm-mini-gen4.",
+          "Няма N → Shelly 1L Gen3 + Shelly Bypass. Bypass е включен в комплекта на 1L Gen3 и е нужен при LED осветление. Официална страница: https://www.shelly.com/products/shelly-1l-gen3.",
         ],
       },
       {
         heading: "Монтаж",
         paragraphs: [
-          "Монтажът е работа за квалифициран електротехник. След монтажа лампата трябва да се включва и ръчно от ключа, и през Wi-Fi. В Home Assistant добавяш Shelly през локалната интеграция — без Shelly Cloud.",
+          "Монтажът е работа за квалифициран електротехник. След монтажа лампата трябва да се включва и ръчно от ключа, и през Wi-Fi. В Home Assistant добавяш Shelly през локалната интеграция — без Shelly Cloud. Ръководство: https://www.home-assistant.io/integrations/shelly/.",
         ],
       },
     ],
@@ -145,25 +145,25 @@ export const helpArticles: HelpArticle[] = [
     slug: "ha-os-install",
     title: "Инсталация на Home Assistant OS на mini PC",
     description:
-      "USB флашка, Balena Etcher, boot от USB и първи вход на :8123.",
+      "USB флашка, Ubuntu Live или balenaEtcher, стартиране от USB и първи вход на :8123.",
     sections: [
       {
         heading: "Подготовка",
         paragraphs: [
-          "Нужни са: отделен x86-64 mini PC, USB флашка поне 8 GB (16 GB е практичният избор), Ethernet към рутера и резервно копие на важните данни. N100 с 16 GB RAM е добра цел за локален Whisper. Официалният guide е https://www.home-assistant.io/installation/generic-x86-64/.",
+          "Нужни са: отделен x86-64 mini PC, USB флашка поне 8 GB (16 GB е практичният избор), Ethernet към рутера и резервно копие на важните данни. N100 с 16 GB RAM е разумна цел за локален Whisper. Официалното ръководство е https://www.home-assistant.io/installation/generic-x86-64/.",
         ],
       },
       {
         heading: "Запис и инсталация",
         paragraphs: [
-          "HAOS няма автоматичен installer, който сам избира диска. Препоръчителният метод е Ubuntu Live от USB и Restore Disk Image към вътрешния SSD; Balena Etcher е алтернативен метод, ако SSD-то може безопасно да се свърже към друг компютър.",
-          "В BIOS включи UEFI и изключи Secure Boot. След инсталацията махни временния USB, свържи Ethernet и отвори http://homeassistant.local:8123 (или IP адреса на машината). Създай акаунт.",
+          "HAOS няма автоматичен инсталатор, който сам избира диска. Препоръчителният метод е Ubuntu Live от USB и Restore Disk Image към вътрешния SSD; balenaEtcher е алтернатива, ако SSD-то може безопасно да се свърже към друг компютър.",
+          "В BIOS включи UEFI и изключи Secure Boot. След инсталацията махни временния USB, свържи Ethernet и отвори http://homeassistant.local:8123 (или IP адреса на машината). После създай акаунт и завърши onboarding-а.",
         ],
       },
       {
         heading: "Защо HA OS, не Docker",
         paragraphs: [
-          "HAOS е препоръчителният тип за постоянен сървър, защото включва Supervisor и apps като Whisper, Piper и ESPHome. За Mac теста използваме HAOS във VM, така че macOS остава непокътнат.",
+          "HAOS е препоръчителният тип за постоянен сървър, защото включва Supervisor и поддържа приложения като Whisper, Piper и ESPHome. За Mac теста използваме HAOS във виртуална машина, така че macOS остава непокътнат.",
         ],
       },
     ],
@@ -173,31 +173,31 @@ export const helpArticles: HelpArticle[] = [
   },
   {
     slug: "voice-pipeline",
-    title: "Гласов pipeline (Whisper + Assist)",
-    description: "Как се връзва STT, език Bulgarian и гласовото устройство.",
+    title: "Гласова верига (Whisper + Assist)",
+    description: "Как се свързват STT, езикът Bulgarian и гласовото устройство.",
     sections: [
       {
-        heading: "Какво е pipeline",
+        heading: "Какво е гласова верига",
         paragraphs: [
-          "Pipeline-ът е рецепта: откъде идва аудиото, кой го превръща в текст (Cloud STT или Whisper), как се разбира командата (Assist/automation), и как се връща отговор (Cloud TTS, Piper или бийп).",
+          "Гласовата верига е рецептата на Assist: откъде идва аудиото, кой го превръща в текст (Cloud STT, Whisper или Speech-to-Phrase), как се разбира командата и как се връща отговор (Cloud TTS, Piper или бийп).",
         ],
       },
       {
         heading: "На HA OS",
         paragraphs: [
-          "На HAOS отвори Settings → Apps и инсталирай Whisper и по желание Piper. Стартирай apps, добави Wyoming от Settings → Devices & services, после в Settings → Voice assistants създай pipeline с Home Assistant conversation agent и език Bulgarian. Виж и https://www.home-assistant.io/voice_control/voice_remote_local_assistant.",
+          "На HAOS отвори Settings → Apps и инсталирай Whisper или Speech-to-Phrase за разпознаване, а по желание Piper за локален гласов отговор. Стартирай приложенията; после в Settings → Devices & services добави откритите Wyoming услуги. Накрая в Settings → Voice assistants → Add assistant създай асистент с Conversation agent = Home Assistant и език Bulgarian. Официалното ръководство е https://www.home-assistant.io/voice_control/voice_remote_local_assistant.",
         ],
       },
       {
         heading: "На Container",
         paragraphs: [
-          "Няма apps — използваш отделни STT/TTS контейнери и ръчно добавяш Wyoming. Това е възможно, но е напреднал вариант; за Apple Silicon теста използвай HAOS VM.",
+          "Няма приложения като в HAOS — използваш отделни STT/TTS контейнери и ръчно добавяш Wyoming. Това е възможно, но е напреднал вариант; за Apple Silicon теста използвай HAOS виртуална машина.",
         ],
       },
     ],
     relatedSteps: [
-      { href: "/#node-pipeline", label: "Пълен план · Pipeline" },
-      { href: "/test#node-pipeline", label: "Тест · Pipeline" },
+      { href: "/#node-pipeline", label: "Пълен план · Гласова верига" },
+      { href: "/test#node-pipeline", label: "Тест · Гласова верига" },
     ],
   },
   {
@@ -209,20 +209,20 @@ export const helpArticles: HelpArticle[] = [
       {
         heading: "Стратегия",
         paragraphs: [
-          "Whisper понякога обърква думи. За критични команди („включи лампата“) първо правиш автоматизации с точни фрази: „Тъмно е в хола“, „Пусни лампата в хола“. После разширяваш.",
+          "Whisper понякога обърква думи. За критични команди („включи лампата“) първо направи автоматизации с точни фрази: „Тъмно е в хола“, „Пусни лампата в хола“. После ги разширявай.",
         ],
       },
       {
         heading: "Как да добавиш",
         paragraphs: [
-          "В HA: Автоматизации → Създай → Тригер: Sentence / Conversation. Или редактирай configuration.yaml / automations.yaml с примерния YAML от плана.",
-          "Смени entity_id с реалния от Developer Tools → States (напр. light.lampa_hol или switch.shelly...).",
+          "В HA: Автоматизации → Създай → Тригер: Sentence / Conversation. За първия опит използвай визуалния редактор; YAML примерът в плана е за по-техническа настройка. Официалният формат е описан тук: https://www.home-assistant.io/docs/automation/trigger/#sentence-trigger.",
+          "Смени entity_id с реалния от Developer Tools → States (например light.lampa_hol или switch.shelly...).",
         ],
       },
       {
         heading: "Имена на устройства",
         paragraphs: [
-          "Зона „Хол“ + алтернативни имена („лампата в хола“) помагат на Assist да разбере естествени фрази. За начало експонирай само една лампа към Assist.",
+          "Зона „Хол“ и алтернативни имена („лампата в хола“) помагат на Assist да разбере естествени фрази. За начало експонирай само една лампа към Assist. Виж и https://www.home-assistant.io/voice_control/best_practices.",
         ],
       },
     ],

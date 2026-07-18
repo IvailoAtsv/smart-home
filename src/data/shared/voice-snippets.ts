@@ -2,8 +2,8 @@
 
 export const PIPELINE_CHEAT_SHEET = `Wake word (локално на ATOM Echo / Voice PE)
     → аудио към Home Assistant
-    → STT (Home Assistant Cloud или локален Whisper)
-    → Assist / Sentence automation
+    → STT (Home Assistant Cloud, Whisper или Speech-to-Phrase)
+    → Assist / автоматизация с изречение
     → Shelly switch / light.turn_on
     → TTS / бийп обратно към сателита`;
 
@@ -15,21 +15,21 @@ export const ARCHITECTURE_OVERVIEW_TEST = `Apple Silicon Mac
   ├── Shelly → лампа
   └── ATOM Echo → микрофон / говорител
 
-Интернет: нужен за VM setup, прошивка
+Интернет: нужен за настройката на VM, прошивката
 и Cloud STT/TTS в минималния тест.
-После локалното управление на Shelly остава в LAN.`;
+След това локалното управление на Shelly остава в LAN.`;
 
 export const ARCHITECTURE_OVERVIEW_FULL = `Mini PC N100 (Home Assistant OS)
-  ├── Whisper app (Wyoming, по избор)
-  └── Piper app (по избор)
+  ├── Приложение Whisper (Wyoming, по избор)
+  └── Приложение Piper (по избор)
 
 Локална мрежа
   ├── Shelly релета → лампи
   ├── Voice PE (хол) — основен микрофон
   └── ATOM Echo — други стаи
 
-Интернет: setup / обновления / Cloud voice, ако е избран.
-Управлението и говорът могат да са изцяло локални.`;
+Интернет: първоначална настройка / обновления / Cloud voice, ако е избран.
+Управлението и гласът могат да са изцяло локални.`;
 
 export const AUTOMATION_LAMP_YAML = `# Смени light.lampa_hol с твоя entity_id
 # (Настройки → Устройства → лампата, или Developer Tools → States)
