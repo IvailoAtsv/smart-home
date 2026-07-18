@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 440" role="img" aria-label="Shelly neutral">
+  <rect width="360" height="440" fill="#FFF8EC"/>
+
+  <rect x="24" y="24" width="312" height="148" rx="16" fill="#ECFDF5" stroke="#0D9488" stroke-width="2"/>
+  <text x="180" y="58" text-anchor="middle" fill="#0F766E" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Has neutral (N)</text>
+  <text x="180" y="88" text-anchor="middle" fill="#115E59" font-family="system-ui,sans-serif" font-size="13">L · N · load</text>
+  <text x="180" y="122" text-anchor="middle" fill="#1C1917" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Shelly 1PM Mini Gen4</text>
+  <text x="180" y="150" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">smaller · power metering</text>
+
+  <rect x="24" y="192" width="312" height="148" rx="16" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <text x="180" y="226" text-anchor="middle" fill="#92400E" font-family="system-ui,sans-serif" font-size="15" font-weight="700">No neutral</text>
+  <text x="180" y="256" text-anchor="middle" fill="#B45309" font-family="system-ui,sans-serif" font-size="13">L · load (+ bypass)</text>
+  <text x="180" y="290" text-anchor="middle" fill="#1C1917" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Shelly 1L Gen3</text>
+  <text x="180" y="318" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">bypass required for LED</text>
+
+  <text x="180" y="390" text-anchor="middle" fill="#78716C" font-family="system-ui,sans-serif" font-size="12">Electrician opens the box</text>
+  <text x="180" y="410" text-anchor="middle" fill="#78716C" font-family="system-ui,sans-serif" font-size="12">you do not touch 220 V</text>
+</svg>

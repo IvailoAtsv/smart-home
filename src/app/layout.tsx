@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Умен дом - глас на български",
   description:
-    "Прост план за монтаж: Home Assistant, Shelly и гласови команди на български.",
+    "Прост план за монтаж: Home Assistant OS, Shelly и гласови команди на български. С onboarding според твоето устройство и бюджет.",
 };
 
 export const viewport: Viewport = {

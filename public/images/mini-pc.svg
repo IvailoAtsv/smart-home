@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 340" role="img" aria-label="Mini PC">
+  <rect width="360" height="340" fill="#FFF8EC"/>
+
+  <rect x="100" y="24" width="160" height="88" rx="14" fill="#1C1917"/>
+  <text x="180" y="72" text-anchor="middle" fill="#FFF8EC" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Mini PC</text>
+
+  <rect x="178" y="112" width="4" height="24" fill="#0D9488"/>
+  <text x="180" y="132" text-anchor="middle" fill="#0F766E" font-family="system-ui,sans-serif" font-size="12">Ethernet</text>
+
+  <rect x="80" y="148" width="200" height="100" rx="16" fill="#44403C"/>
+  <circle cx="140" cy="188" r="8" fill="#0D9488"/>
+  <circle cx="180" cy="188" r="8" fill="#A8A29E"/>
+  <circle cx="220" cy="188" r="8" fill="#A8A29E"/>
+  <text x="180" y="228" text-anchor="middle" fill="#E7E5E4" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Router</text>
+
+  <text x="180" y="290" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">Place near router · ventilated</text>
+  <text x="180" y="310" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">prefer Ethernet</text>
+</svg>

@@ -77,6 +77,45 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Large touch-friendly rooms slider for onboarding */
+.rooms-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+
+.rooms-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--secondary);
+  border: 3px solid var(--primary);
+  box-shadow: var(--shadow);
+  cursor: grab;
+}
+
+.rooms-slider::-moz-range-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--secondary);
+  border: 3px solid var(--primary);
+  box-shadow: var(--shadow);
+  cursor: grab;
+}
+
+.rooms-slider::-moz-range-track {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--border);
+}
+
 ::selection {
   background: color-mix(in srgb, var(--secondary) 45%, white);
   color: var(--foreground);

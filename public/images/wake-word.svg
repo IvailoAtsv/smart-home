@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 400" role="img" aria-label="Wake word">
+  <rect width="360" height="400" fill="#FFF8EC"/>
+
+  <rect x="24" y="24" width="312" height="72" rx="14" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <text x="180" y="54" text-anchor="middle" fill="#92400E" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Okay Nabu</text>
+  <text x="180" y="76" text-anchor="middle" fill="#B45309" font-family="system-ui,sans-serif" font-size="12">English wake word</text>
+
+  <rect x="178" y="96" width="4" height="24" fill="#0D9488"/>
+
+  <rect x="24" y="120" width="312" height="72" rx="14" fill="#0F766E"/>
+  <text x="180" y="150" text-anchor="middle" fill="#ECFDF5" font-family="system-ui,sans-serif" font-size="15" font-weight="700">listening</text>
+  <text x="180" y="172" text-anchor="middle" fill="#CCFBF1" font-family="system-ui,sans-serif" font-size="12">LED / beep</text>
+
+  <rect x="178" y="192" width="4" height="24" fill="#0D9488"/>
+
+  <rect x="24" y="216" width="312" height="72" rx="14" fill="#1C1917"/>
+  <text x="180" y="246" text-anchor="middle" fill="#FFF8EC" font-family="system-ui,sans-serif" font-size="15" font-weight="700">command</text>
+  <text x="180" y="268" text-anchor="middle" fill="#A8A29E" font-family="system-ui,sans-serif" font-size="12">Bulgarian phrase</text>
+
+  <text x="180" y="330" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">Wake word first, then the command</text>
+  <text x="180" y="350" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">two separate steps</text>
+</svg>

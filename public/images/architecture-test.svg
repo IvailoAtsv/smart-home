@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" role="img" aria-label="Test architecture">
+  <rect width="360" height="480" fill="#FFF8EC"/>
+
+  <rect x="24" y="24" width="312" height="60" rx="16" fill="#1C1917"/>
+  <text x="180" y="50" text-anchor="middle" fill="#FFF8EC" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Your computer</text>
+  <text x="180" y="70" text-anchor="middle" fill="#A8A29E" font-family="system-ui,sans-serif" font-size="12">macOS / Win / Linux</text>
+
+  <rect x="178" y="84" width="4" height="20" fill="#0D9488"/>
+
+  <rect x="24" y="104" width="312" height="60" rx="16" fill="#0F766E"/>
+  <text x="180" y="130" text-anchor="middle" fill="#ECFDF5" font-family="system-ui,sans-serif" font-size="15" font-weight="700">HAOS VM</text>
+  <text x="180" y="150" text-anchor="middle" fill="#CCFBF1" font-family="system-ui,sans-serif" font-size="12">temporary test</text>
+
+  <rect x="178" y="164" width="4" height="20" fill="#0D9488"/>
+  <text x="180" y="178" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">bridged LAN</text>
+
+  <rect x="178" y="184" width="4" height="20" fill="#0D9488"/>
+
+  <rect x="24" y="204" width="312" height="64" rx="14" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <text x="180" y="232" text-anchor="middle" fill="#92400E" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Voice satellite</text>
+  <text x="180" y="252" text-anchor="middle" fill="#B45309" font-family="system-ui,sans-serif" font-size="12">ATOM Echo or Voice PE</text>
+
+  <rect x="178" y="268" width="4" height="20" fill="#0D9488"/>
+
+  <rect x="24" y="288" width="312" height="60" rx="14" fill="#44403C"/>
+  <text x="180" y="316" text-anchor="middle" fill="#FFF8EC" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Shelly</text>
+  <text x="180" y="336" text-anchor="middle" fill="#D6D3D1" font-family="system-ui,sans-serif" font-size="12">lamp</text>
+
+  <text x="180" y="400" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">Same network as 2.4 GHz Wi-Fi</text>
+  <text x="180" y="420" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">voice and lamp reach HA in LAN</text>
+</svg>

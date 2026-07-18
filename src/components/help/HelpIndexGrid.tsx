@@ -18,6 +18,8 @@ const iconBySlug: Record<
 > = {
   "kak-raboti": GitBranch,
   "docker-mac": Cpu,
+  "test-windows": Cpu,
+  "test-linux": Cpu,
   "atom-echo-flash": Microphone,
   "shelly-neutral": Plugs,
   "ha-os-install": Lightning,
