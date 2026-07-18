@@ -13,7 +13,8 @@ export const atomEchoBuyGroups: BuyGroup[] = [
         store: "Mouser.bg",
         approxPrice: "≈ 11,61 €",
         url: "https://www.mouser.bg/ProductDetail/M5Stack/C008-C",
-        notes: "Българска локализирана дистрибуторска страница; провери ДДС, доставка и наличност.",
+        notes:
+          "Българска локализирана дистрибуторска страница; провери ДДС, доставка и наличност.",
       },
       {
         id: "atom-digikey-bg",
@@ -21,7 +22,8 @@ export const atomEchoBuyGroups: BuyGroup[] = [
         store: "DigiKey.bg",
         approxPrice: "≈ 13,76 € с ДДС",
         url: "https://www.digikey.bg/en/products/detail/m5stack-technology-co-ltd/C008-C/12174736",
-        notes: "Българска локализирана дистрибуторска страница; провери доставката.",
+        notes:
+          "Българска локализирана дистрибуторска страница; провери доставката.",
       },
       {
         id: "atom-robotshop",
@@ -44,7 +46,8 @@ export const atomEchoBuyGroups: BuyGroup[] = [
   {
     id: "atom-accessories",
     title: "Кабел за ATOM Echo",
-    description: "Задължителен USB-C кабел с данни за прошивка от Mac.",
+    description:
+      "Задължителен USB-C кабел с данни за прошивка от desktop Chrome.",
     items: [
       {
         id: "atom-usbc",
@@ -52,7 +55,8 @@ export const atomEchoBuyGroups: BuyGroup[] = [
         store: "Ozone.bg",
         approxPrice: "≈ 19,99 лв.",
         url: "https://www.ozone.bg/product/baseus-crystal-shine-series-fast-charging-data-cable-type-c-to-type-c-100w-2m-blue/",
-        notes: "Точен кабел с данни за прошивка; не ползвай кабел само за зареждане.",
+        notes:
+          "Точен кабел с данни за прошивка; не ползвай кабел само за зареждане.",
       },
     ],
   },

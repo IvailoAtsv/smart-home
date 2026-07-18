@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 420" role="img" aria-label="Flash via Chrome">
+  <rect width="360" height="420" fill="#FFF8EC"/>
+
+  <rect x="48" y="24" width="264" height="120" rx="16" fill="#1C1917"/>
+  <rect x="68" y="44" width="224" height="80" rx="8" fill="#292524"/>
+  <text x="180" y="84" text-anchor="middle" fill="#0D9488" font-family="system-ui,sans-serif" font-size="17" font-weight="700">Chrome</text>
+  <text x="180" y="108" text-anchor="middle" fill="#A8A29E" font-family="system-ui,sans-serif" font-size="12">Web Serial</text>
+
+  <rect x="178" y="144" width="4" height="24" fill="#0D9488"/>
+  <text x="180" y="164" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="12">USB</text>
+
+  <rect x="120" y="176" width="120" height="120" rx="24" fill="#44403C"/>
+  <circle cx="180" cy="236" r="24" fill="#0D9488"/>
+  <text x="180" y="316" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="13">ATOM Echo</text>
+
+  <text x="180" y="360" text-anchor="middle" fill="#78716C" font-family="system-ui,sans-serif" font-size="12">not Safari · not phone</text>
+</svg>

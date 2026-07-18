@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import type { HelpArticle } from "@/data/help/articles";
+import { GuideImage } from "@/components/GuideImage";
 import { LinkifiedText } from "@/components/content/LinkifiedText";
 
 type HelpArticleBodyProps = {
@@ -14,7 +15,7 @@ export function HelpArticleBody({ article }: HelpArticleBodyProps) {
         {article.sections.map((section, index) => (
           <section
             key={section.heading}
-            className="scroll-mt-24 border-l-[3px] border-secondary/70 pl-5 md:pl-6"
+            className="scroll-mt-[calc(4rem+env(safe-area-inset-top))] border-l-[3px] border-secondary/70 pl-5 md:pl-6"
           >
             <h2 className="text-[20px] font-bold leading-snug text-primary md:text-[22px]">
               <span className="mr-2 font-mono text-[14px] font-semibold text-muted-foreground">
@@ -22,6 +23,10 @@ export function HelpArticleBody({ article }: HelpArticleBodyProps) {
               </span>
               {section.heading}
             </h2>
+
+            {section.images?.map((img) => (
+              <GuideImage key={img.src} image={img} className="mt-5 max-w-[65ch]" />
+            ))}
 
             {section.paragraphs?.map((p) => (
               <p

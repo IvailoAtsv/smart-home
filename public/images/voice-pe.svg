@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-label="Voice PE">
+  <rect width="360" height="360" fill="#FFF8EC"/>
+
+  <ellipse cx="180" cy="108" rx="88" ry="68" fill="#0F766E"/>
+  <circle cx="150" cy="100" r="10" fill="#CCFBF1"/>
+  <circle cx="180" cy="88" r="10" fill="#CCFBF1"/>
+  <circle cx="210" cy="100" r="10" fill="#CCFBF1"/>
+  <text x="180" y="196" text-anchor="middle" fill="#57534E" font-family="system-ui,sans-serif" font-size="13" font-weight="600">Voice Preview Edition</text>
+
+  <rect x="24" y="220" width="312" height="88" rx="16" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <text x="180" y="252" text-anchor="middle" fill="#92400E" font-family="system-ui,sans-serif" font-size="15" font-weight="700">5 V / 2 A USB-C</text>
+  <text x="180" y="274" text-anchor="middle" fill="#B45309" font-family="system-ui,sans-serif" font-size="12">cable and charger often separate</text>
+  <text x="180" y="294" text-anchor="middle" fill="#B45309" font-family="system-ui,sans-serif" font-size="12">better mic for living room</text>
+</svg>

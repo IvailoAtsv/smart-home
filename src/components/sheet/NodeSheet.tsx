@@ -20,7 +20,14 @@ import {
   Warning,
   X,
 } from "@phosphor-icons/react";
-import type { BuyGroup, BuyItem, RoadmapStep } from "@/data/types";
+import type {
+  BuyGroup,
+  BuyItem,
+  RoadmapStep,
+  SetupLine,
+  SetupSegment,
+} from "@/data/types";
+import { GuideImage } from "@/components/GuideImage";
 import { Button } from "@/components/ui/Button";
 import { LinkifiedText } from "@/components/content/LinkifiedText";
 
@@ -51,6 +58,7 @@ export function NodeSheet({
 }: NodeSheetProps) {
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const open = Boolean(step);
 
@@ -72,6 +80,14 @@ export function NodeSheet({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
+
+  useEffect(() => {
+    if (!step) return;
+    scrollRef.current?.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }, [step?.id, reduceMotion]);
 
   const nextStep = step
     ? steps.find((s) => s.step === step.step + 1)
@@ -152,10 +168,21 @@ export function NodeSheet({
               </button>
             </div>
 
-            <div className="flex-1 space-y-10 overflow-y-auto overscroll-contain px-5 py-6">
+            <div
+              ref={scrollRef}
+              className="flex-1 space-y-10 overflow-y-auto overscroll-contain px-5 py-6"
+            >
               <p className="text-[16px] leading-[1.7] text-foreground/95 md:text-[17px]">
                 <LinkifiedText>{step.summary}</LinkifiedText>
               </p>
+
+              {step.images && step.images.length > 0 ? (
+                <div className="space-y-4">
+                  {step.images.map((img) => (
+                    <GuideImage key={img.src} image={img} />
+                  ))}
+                </div>
+              ) : null}
 
               {step.help && step.help.length > 0 ? (
                 <section className="border-t border-border/40 pt-8">
@@ -238,16 +265,19 @@ export function NodeSheet({
               <section className="border-t border-border/40 pt-8">
                 <SectionHeading>Как да го направиш</SectionHeading>
                 <ol className="space-y-5">
-                  {step.setup.map((line, index) => (
+                  {step.setup.map((setupLine, index) => (
                     <li
-                      key={`${index}-${line.slice(0, 24)}`}
+                      key={`${index}-${setupLineKey(setupLine)}`}
                       className="flex gap-4"
                     >
                       <span className="flex h-7 w-7 shrink-0 items-center justify-center text-[14px] font-bold tabular-nums text-secondary">
                         {index + 1}
                       </span>
                       <p className="pt-0.5 text-[15px] leading-[1.7] text-foreground/95">
-                        <LinkifiedText>{line}</LinkifiedText>
+                        <SetupLineText
+                          line={setupLine}
+                          onNavigate={onNavigate}
+                        />
                       </p>
                     </li>
                   ))}
@@ -292,8 +322,9 @@ export function NodeSheet({
                       fullWidth
                       onClick={() => onNavigate(prevStep.id)}
                       className="truncate px-2 text-[13px]"
+                      title={prevStep.title}
                     >
-                      ← Предишна
+                      ← {prevStep.title}
                     </Button>
                   ) : null}
                   {nextStep ? (
@@ -303,8 +334,9 @@ export function NodeSheet({
                       fullWidth
                       onClick={() => onNavigate(nextStep.id)}
                       className="truncate px-2 text-[13px]"
+                      title={nextStep.title}
                     >
-                      Следваща →
+                      {nextStep.title} →
                     </Button>
                   ) : null}
                 </div>
@@ -463,6 +495,49 @@ function BuyItemRow({
         </div>
       </div>
     </li>
+  );
+}
+
+function setupLineKey(line: SetupLine): string {
+  if (typeof line === "string") return line.slice(0, 24);
+  return line
+    .map((s) => (typeof s === "string" ? s.slice(0, 12) : s.stepId))
+    .join("-")
+    .slice(0, 40);
+}
+
+function SetupLineText({
+  line,
+  onNavigate,
+}: {
+  line: SetupLine;
+  onNavigate: (id: string) => void;
+}) {
+  const segments: SetupSegment[] =
+    typeof line === "string" ? [line] : line;
+
+  return (
+    <>
+      {segments.map((seg, i) => {
+        if (typeof seg === "string") {
+          return (
+            <span key={`t-${i}`}>
+              <LinkifiedText>{seg}</LinkifiedText>
+            </span>
+          );
+        }
+        return (
+          <button
+            key={`s-${seg.stepId}-${i}`}
+            type="button"
+            onClick={() => onNavigate(seg.stepId)}
+            className="cursor-pointer font-semibold text-secondary underline decoration-secondary/40 underline-offset-2 transition-colors hover:decoration-secondary"
+          >
+            {seg.label}
+          </button>
+        );
+      })}
+    </>
   );
 }
 
